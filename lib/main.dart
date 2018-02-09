@@ -15,14 +15,18 @@ class Keeper extends StatelessWidget {
 
 
 class KeeperDrawer extends StatelessWidget {
-	// TODO (1) Initialize Drawer
-	// Drawer drawer = new Drawer();
-	// TODO (2) Pass it to Scaffold Constructor
-	
+	// COMPLETE (1) Initialize Drawer
+	Drawer drawer = new Drawer();
+	// COMPLETE (2) Pass it to Scaffold Constructor
+	// open terminal and enter
+	// $ cd path_to_project
+	// $ flutter run
+	// wait it will install app on your mobile device or AVD.
+	// Now click on Hamburger icon
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-	    //drawer: drawer
+	    drawer: drawer,
 	    appBar: new AppBar(
 		    title: new Text('Keeper'),
 	    ),
