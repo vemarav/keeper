@@ -15,13 +15,14 @@ class Keeper extends StatelessWidget {
 
 
 class KeeperDrawer extends StatelessWidget {
-	// Initialize Drawer and pass it Scaffold
-	Drawer drawer = new Drawer();
+	// TODO (1) Initialize Drawer
+	// Drawer drawer = new Drawer();
+	// TODO (2) Pass it to Scaffold Constructor
 	
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-	    drawer: drawer, // drawer
+	    //drawer: drawer
 	    appBar: new AppBar(
 		    title: new Text('Keeper'),
 	    ),
