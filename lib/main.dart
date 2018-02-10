@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
 // TODO (3) create constant String for accountName as _AccountName
-const String _AccountName = 'Aravind Vemula';
 // TODO (4) create constant String for accountEmail as _AccountEmail
-const String _AccountEmail = 'vemula.aravind336@gmail.com';
 // TODO (5) create constant String for _AccountAbbr
-const String _AccountAbbr = 'AV';
 
 void main() => runApp(new Keeper());
 
@@ -34,18 +31,7 @@ class KeeperDrawer extends StatelessWidget {
 	// Now run app and you will see a Nice DrawerHeader
 	// TODO (8) As an Exercise try adding CircleAvatar backgroundImage and create Pull Request.
 	
-	Drawer drawer = new Drawer(
-			child: new Column(children: <Widget>[
-				new UserAccountsDrawerHeader(
-					accountName: const Text(_AccountName),
-					accountEmail: const Text(_AccountEmail),
-					currentAccountPicture: new CircleAvatar(
-						backgroundColor: Colors.brown,
-						child: new Text(_AccountAbbr)
-					),
-				)
-			])
-	);
+	Drawer drawer = new Drawer();
 	
 	@override
 	Widget build(BuildContext context) {
@@ -59,5 +45,4 @@ class KeeperDrawer extends StatelessWidget {
 				)
 		);
 	}
-	
 }
