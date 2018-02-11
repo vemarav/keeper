@@ -15,6 +15,9 @@ class Keeper extends StatelessWidget {
 				primaryColor: Colors.yellow.shade700
 			),
 			home: new KeeperDrawer(),
+			routes: <String, WidgetBuilder> {
+				Notes.routeName : (BuildContext context) => new Notes()
+			}
 		);
 	}
 	
@@ -22,19 +25,6 @@ class Keeper extends StatelessWidget {
 
 
 class KeeperDrawer extends StatelessWidget {
-	
-	// TODO (1) replace drawer with new Drawer(child: ...) in Scaffold
-	// TODO (2) replace Column with ListView
-	// refer: https://docs.flutter.io/flutter/widgets/ListView-class.html
-	// TODO (3) make Column(children:...) as ListView(children:...)
-	// TODO (4) add padding top 0 to ListView to remove white space
-	// TODO (5) add otherAccountPictures with GestureDetector
-	// refer: https://docs.flutter.io/flutter/widgets/GestureDetector-class.html
-	// TODO (6) create a callback for GestureDetector(onTap:...) and showDialog with "Account Switching not implemented"
-	// TODO (7) add some ListTile to ListView(children: ...)
-	// refer: https://docs.flutter.io/flutter/material/ListTile-class.html
-	// TODO (8) create a callback method for each ListTile with ShowDialog with "Not Implemented"
-	// TODO (9) Exercise make children Dynamic
 	
 	@override
 	Widget build(BuildContext context) {
@@ -66,7 +56,22 @@ class KeeperDrawer extends StatelessWidget {
 						new ListTile(
 							leading: new Icon(Icons.lightbulb_outline),
 							title: new Text('Notes'),
-							onTap: () => _onListTileTap(context),
+							onTap: () {
+								Navigator.of(context).pop();
+								Navigator.of(context).push(
+									new PageRouteBuilder(
+										pageBuilder: (BuildContext context, _, __) {
+											return new Notes();
+										},
+										transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
+											return new FadeTransition(
+												opacity: animation,
+												child: child
+											);
+										}
+									)
+								);
+							},
 						),
 						new Divider(),
 						new ListTile(
@@ -170,14 +175,26 @@ class KeeperDrawer extends StatelessWidget {
 		);
 	}
 	
-	_labelWidgets() {
-		return [
-			new ListTile(
-				leading: new Icon(Icons.label),
-				title: new Text('Work'),
-				onTap: () => _onListTileTap(context),
-			),
-		];
-	}
+}
+
+class Notes extends StatelessWidget {
+	static final String routeName = '/notes';
 	
+	@override
+	Widget build(BuildContext context) {
+		return new Scaffold(
+			drawer: new Drawer(),
+			appBar: new AppBar(
+				title: new Text('Notes'),
+			),
+			body: new Center(
+				child: new Text(
+					'Notes',
+					style: new TextStyle(
+						fontSize: 24.0
+					)
+				),
+			),
+		);
+	}
 }
