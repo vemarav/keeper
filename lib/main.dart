@@ -7,6 +7,9 @@ const String _AccountAbbr = 'AV';
 void main() => runApp(new Keeper());
 
 class Keeper extends StatelessWidget {
+	
+	// COMPLETE (9) add theme to MaterialApp with (primaryColor: Colors.yellow.700)
+	
 	@override
 	Widget build(BuildContext context) {
 		return new MaterialApp(
@@ -23,18 +26,18 @@ class Keeper extends StatelessWidget {
 
 class KeeperDrawer extends StatelessWidget {
 	
-	// TODO (1) replace drawer with new Drawer(child: ...) in Scaffold
-	// TODO (2) replace Column with ListView
+	// COMPLETE (1) replace drawer with new Drawer(child: ...) in Scaffold
+	// COMPLETE (2) replace Column with ListView
 	// refer: https://docs.flutter.io/flutter/widgets/ListView-class.html
-	// TODO (3) make Column(children:...) as ListView(children:...)
-	// TODO (4) add padding top 0 to ListView to remove white space
-	// TODO (5) add otherAccountPictures with GestureDetector
+	// COMPLETE (3) make Column(children:...) as ListView(children:...)
+	// COMPLETE (4) add padding top 0 to ListView to remove white space
+	// COMPLETE (5) add otherAccountPictures with GestureDetector
 	// refer: https://docs.flutter.io/flutter/widgets/GestureDetector-class.html
-	// TODO (6) create a callback for GestureDetector(onTap:...) and showDialog with "Account Switching not implemented"
-	// TODO (7) add some ListTile to ListView(children: ...)
+	// COMPLETE (6) create a callback for GestureDetector(onTap:...) and showDialog with "Account Switching not implemented"
+	// COMPLETE (7) add some ListTile to ListView(children: ...)
 	// refer: https://docs.flutter.io/flutter/material/ListTile-class.html
-	// TODO (8) create a callback method for each ListTile with ShowDialog with "Not Implemented"
-	// TODO (9) Exercise make children Dynamic
+	// COMPLETE (8) create a callback method for each ListTile with ShowDialog with "Not Implemented"
+	// COMPLETE (10) Exercise make children Dynamic
 	
 	@override
 	Widget build(BuildContext context) {
@@ -168,16 +171,6 @@ class KeeperDrawer extends StatelessWidget {
 				],
 			),
 		);
-	}
-	
-	_labelWidgets() {
-		return [
-			new ListTile(
-				leading: new Icon(Icons.label),
-				title: new Text('Work'),
-				onTap: () => _onListTileTap(context),
-			),
-		];
 	}
 	
 }
