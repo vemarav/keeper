@@ -16,7 +16,7 @@ class Keeper extends StatelessWidget {
 			),
 			home: new KeeperDrawer(),
 			// Routes
-			// TODO (3) add Notes.routeName to routes
+			// COMPLETE (3) add Notes.routeName to routes
 			routes: <String, WidgetBuilder> {
 				Notes.routeName : (BuildContext context) => new Notes()
 			}
@@ -28,8 +28,8 @@ class Keeper extends StatelessWidget {
 
 class KeeperDrawer extends StatelessWidget {
 	
-	// TODO (1) create Notes widget
-	// TODO (2) create routeName as static final
+	// COMPLETE (1) create Notes widget
+	// COMPLETE (2) create routeName as static final
 	
 	@override
 	Widget build(BuildContext context) {
@@ -62,11 +62,11 @@ class KeeperDrawer extends StatelessWidget {
 							leading: new Icon(Icons.lightbulb_outline),
 							title: new Text('Notes'),
 							onTap: () {
-								// TODO (4) remove _onListTap()
-								// TODO (5) close Navigation Drawer
-								// TODO (6) push Notes routeName to Navigator
-								// TODO (7) as an Exercise extract this Drawer as Drawer Widget
-								// TODO (8) Extracted Drawer Widget will be used in other widgets wherever requires
+								// COMPLETE (4) remove _onListTap()
+								// COMPLETE (5) close Navigation Drawer
+								// COMPLETE (6) push Notes routeName to Navigator
+								// COMPLETE (7) as an Exercise extract this Drawer as Drawer Widget
+								// COMPLETE (8) Extracted Drawer Widget will be used in other widgets wherever requires
 								Navigator.of(context).pop();
 								// Navigator.of(context).pushNamed(Notes.routeName) will not have
 								// transition animation and can be used for modal forms
