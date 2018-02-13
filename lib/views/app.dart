@@ -9,6 +9,7 @@ class Keeper extends StatelessWidget {
 			title: 'Keeper',
 			theme: new ThemeData(
 				primaryColor: Colors.amber.shade500,
+				accentColor: Colors.blueGrey.shade500,
 				primaryTextTheme: const TextTheme(
 					headline: const TextStyle(
 						color: Colors.white

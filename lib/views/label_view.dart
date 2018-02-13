@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:keeper/views/keeper_drawer.dart';
-import 'label_names.dart';
+import 'mock_data.dart';
 
 class LabelView extends StatefulWidget {
 	static final String routeName = '/';
@@ -30,10 +28,19 @@ class LabelViewState extends State<LabelView> {
 					color: Colors.white,
 					onPressed: _openDrawer
 				),
-				title: new Text(title)
+				title: new Text(title),
+				actions: <Widget>[
+					new IconButton(
+						icon: const Icon(
+							Icons.search,
+							color: Colors.white,
+						),
+						onPressed: () => _alertNotImplemented(context)
+					)
+				],
 			),
-			body: new Center(
-				child: new Text(title),
+			body: new ListView(
+				children: _buildNotes(),
 			),
 		);
 	}
@@ -41,20 +48,39 @@ class LabelViewState extends State<LabelView> {
 	_openDrawer() {
 		_scaffoldKey.currentState.openDrawer();
 	}
-
-  _addLabel() {
-		var _num = new Random().nextInt(10);
-		setState((){
-			labels.add("Label $_num");
+	
+	List<Widget> _buildNotes() {
+		List<Widget> _listNotes = [];
+		notes.forEach((note) {
+			_listNotes.add(
+				new Card(
+					child: new Container(
+						padding: const EdgeInsets.all(16.0),
+						child: new ListTile(
+							title: new Text(note['id'].toString() + " " + note['title']),
+							subtitle: new Text(note['content']),
+						),
+					)
+				)
+			);
 		});
-  }
-  
-  Widget _buttonAddLabel() {
-	  return new MaterialButton(
-		  child: new Text('Add Label'),
-		  color: Colors.amberAccent,
-		  splashColor: Colors.grey.shade300,
-		  onPressed: _addLabel
-	  );
-  }
+		return _listNotes;
+	}
+	
+	_alertNotImplemented(context) {
+		showDialog<Null>(
+			context: context,
+			child: new AlertDialog(
+				title: const Text('Not Implemented'),
+				actions: <Widget>[
+					new FlatButton(
+						child: const Text('OK'),
+						onPressed: () {
+							Navigator.of(context).pop();
+						},
+					),
+				],
+			),
+		);
+	}
 }
