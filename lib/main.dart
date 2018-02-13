@@ -4,6 +4,12 @@ const String _AccountName = 'Aravind Vemula';
 const String _AccountEmail = 'vemula.aravind336@gmail.com';
 const String _AccountAbbr = 'AV';
 
+// TODO (1) create a separate file for each class
+// TODO (2) create a StatelessWidget for Keeper drawer
+// TODO (3) call new KeeperDrawer() instead of new Drawer()
+// TODO (4) change Notes class to LabelView
+// Hint: create views folder and add files which represents the class entity
+
 void main() => runApp(new Keeper());
 
 class Keeper extends StatelessWidget {
