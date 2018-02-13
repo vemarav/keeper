@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keeper/views/label_form.dart';
 import 'package:keeper/views/label_view.dart';
 
 const String _AccountName = 'Aravind Vemula';
@@ -55,6 +56,11 @@ class KeeperDrawer extends StatelessWidget {
 		);
 	}
 	
+	_onTapCreateOrEditLabel(BuildContext context) {
+		Navigator.pop(context);
+		Navigator.of(context).pushNamed(LabelForm.routeName);
+	}
+	
 	List<Widget> _buildDrawerList(BuildContext context) {
 		List<Widget> children = [];
 		children..addAll(_buildUserAccounts(context))
@@ -109,8 +115,10 @@ class KeeperDrawer extends StatelessWidget {
 		labelListTiles.add(
 			new ListTile(
 				leading: new Text('Label'),
-				trailing: new Text('Edit'),
-				onTap: () => _onListTileTap(context, 'Edit Labels'),
+				trailing: new Text(
+					'EDIT'
+				),
+				onTap: () => _onTapCreateOrEditLabel(context),
 			)
 		);
 		labels.forEach((labelName) {
@@ -126,7 +134,7 @@ class KeeperDrawer extends StatelessWidget {
 			new ListTile(
 				leading: new Icon(Icons.add),
 				title: new Text('Create new label'),
-				onTap: () => _onListTileTap(context, 'Edit Labels'),
+				onTap: () => _onTapCreateOrEditLabel(context),
 			)
 		);
 		return labelListTiles;

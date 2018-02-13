@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:keeper/views/label_form.dart';
 import 'label_view.dart';
-import 'keeper_app.dart';
 
 class Keeper extends StatelessWidget {
 	@override
@@ -8,11 +8,16 @@ class Keeper extends StatelessWidget {
 		return new MaterialApp(
 			title: 'Keeper',
 			theme: new ThemeData(
-				primaryColor: Colors.yellow.shade700
+				primaryColor: Colors.amber.shade500,
+				primaryTextTheme: const TextTheme(
+					headline: const TextStyle(
+						color: Colors.white
+					)
+				)
 			),
-			home: new KeeperApp(),
 			routes: <String, WidgetBuilder> {
-				LabelView.routeName : (BuildContext context) => new LabelView(title: 'Notes')
+				LabelView.routeName : (BuildContext context) => new LabelView(title: 'Notes'),
+				LabelForm.routeName : (BuildContext context) => new LabelForm()
 			}
 		);
 	}
