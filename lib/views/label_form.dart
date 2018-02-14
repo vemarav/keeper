@@ -15,7 +15,7 @@ class LabelFormState extends State<LabelForm> {
 	String updateError;
 	List<Widget> labelList = [];
 	final TextEditingController _controller = new TextEditingController();
-	final TextEditingController _updateController = new TextEditingController();
+	TextEditingController _updateController = new TextEditingController();
 	
 	@override
 	Widget build(BuildContext context) {
@@ -85,12 +85,14 @@ class LabelFormState extends State<LabelForm> {
 					icon: const Icon(Icons.check),
 					color: Colors.green,
 					onPressed: _onSave
-				)
+				),
 			)
 		);
 		
 		for(int index=0; index<labels.length;index++) {
 			if(editIndex != null && editIndex == index){
+				if(updateError == null || updateError.isEmpty)
+					_updateController = new TextEditingController(text: labels[index]);
 				labelList.add(
 					new ListTile(
 						leading: new IconButton(
@@ -109,9 +111,9 @@ class LabelFormState extends State<LabelForm> {
 									color: Colors.grey.shade700,
 								),
 								decoration: new InputDecoration(
+									border: null,
 									errorText: updateError,
-									counterText: labels[index],
-									labelText: 'Enter Lable Name'
+									counterText: labels[index]
 								)
 							),
 						),

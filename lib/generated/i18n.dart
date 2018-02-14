@@ -26,11 +26,9 @@ class S extends WidgetsLocalizations {
 
 }
 
-// ignore: camel_case_types
 class en extends S {
   en(Locale locale) : super(locale);
 }
-
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
 
