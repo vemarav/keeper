@@ -42,7 +42,13 @@ class LabelViewState extends State<LabelView> {
 			body: new ListView(
 				children: _buildNotes(),
 			),
-			// TODO (1) add bottom app bar
+      // TODO (1) add bottom app bar
+      // TODO (2) create NoteForm
+      /**
+       * find gist for NoteForm at
+       * https://gist.github.com/aravind99/62ad99f573d182c8acefeee54ca41d14
+       * **/
+      // TODO (3) Navigate to NoteForm
 		);
 	}
 	
