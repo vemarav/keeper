@@ -42,6 +42,7 @@ class LabelViewState extends State<LabelView> {
 			body: new ListView(
 				children: _buildNotes(),
 			),
+			// TODO (1) add bottom app bar
 		);
 	}
 	
