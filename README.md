@@ -1,11 +1,5 @@
 # keeper
 
-A simple app quickly store what's on your mind.
+Final output for this branch
 
-## This app focus on following topics
-
-    1. Navigation Drawer
-    2. MVP architecture
-    3. SQLite
-    4. Firebase Database (NoSQL)
-    5. Data synchronization.
+![Final output](https://lh3.googleusercontent.com/-nb38ImvRco7EVQZoA8_pIoIjzfcjAnMfXPxyjK7VxbU7wbxV07IZMAiUught10s4anWhW3pEaSQDldE3cshGpwflh0nVIaDOJOdilChgZNFQP64NRdqBuoeGBWUgrcKV455xdOt5PYKNiq-uQMA-hDg-L4vbhlV4cNSud6YJb8oPW5RDTUPDsnxg9EdxzTuZ50J_jVHC4Ot5hX7ORZdmI1kSqx3AgZbm32dzvpTh49mWsFnqwOKyt3H9_DapjhD_G9corZveL78VJIrMaxmkgYJdsR_l0vHinZqfM5jqfOcVE30hoTrJilAqvyS3X4Fm4OAySY0pnwevYkmi1ZC8vcPWSRGMJmUEjoI5Ka4O1PLtXqu_OC39kRy1jWXQuSjXGmFyxcoET0bzRuYcMqJZ9ztrkHOFFQUoO6shKncIj44AewK3cBv1aIkCKzfpSCZQa4kZG0CbVwQun9jHP9PpvlWaMOeuyLyK42BDvPfEOo1uCaKIghAEfW7Cq5D5eQL_3snIL3PNIYo1Ck1I24XQHfaiLfu-yG0CwzIYsT8va6I-QzGc4vk4b4ydBZ9mQtbV_H0kljD7weBdLFlZ9IglFP9fNvcXHS-zGL00uLFnDNnnZ9b6FBlRZXebv-P9zMY_sVD4focRS0__dkw5-i05wgkJiXr9eUS=w363-h637-no)
