@@ -1,6 +1,7 @@
 # keeper
 
 A simple app quickly store what's on your mind.
+Medium - https://medium.com/@vemarav
 
 ## This app focus on following topics
 
