@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:keeper/views/app.dart';
 
 void main() {
-	runApp(new Keeper());
+	runApp(MaterialApp(
+    title: 'Keeper',
+    home: Container(
+      child: Center(
+        child: Text('Keeper'),
+      ),
+    ),
+  ));
 }
