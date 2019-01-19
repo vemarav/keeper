@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 // import 'screens/screen.dart';
 import 'screens/notes.dart';
+import 'screens/note_form.dart';
 ////////////////////////////////
 
 // import 'themes/styles.dart';
 import 'themes/light.dart';
+import 'static/constants.dart';
 
 void main() {
   runApp(Keeper());
@@ -20,8 +22,11 @@ class Keeper extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: this.title,
-      home: Notes(),
-      theme: lightTheme()
+      theme: lightTheme(),
+      routes: {
+        Constants.notesRouteName: (BuildContext context) => Notes(),
+        Constants.notesFormRouteName: (BuildContext context) => NoteForm()
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keeper/themes/styles.dart';
 import 'package:keeper/widgets/note_widget.dart';
+import 'package:keeper/widgets/search_bar.dart';
+import 'package:keeper/themes/styles.dart';
 
 var notes = [
   {
@@ -100,43 +101,85 @@ class Notes extends StatefulWidget {
 }
 
 class NotesState extends State<Notes> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(top: Styles.statusBarHeight),
-        child: ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: Styles.keyLineSpacing),
-          itemCount: notes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: Styles.verticalSpacing),
-              child: NoteWidget(note: notes[index]),
-            );
-          },
+      key: _scaffoldKey,
+      drawer: Drawer(),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SearchBar(
+              searchCallBack: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Implement Search'),
+                    );
+                  },
+                );
+              },
+              menuCallBack: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
+              profileCallback: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Implement Profile'),
+                    );
+                  },
+                );
+              },
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                _noteWidget,
+                childCount: notes.length,
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.all(
-            Styles.keyLineSpacing
-          ),
-          child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                'Take a note...',
-                style: Theme.of(context).textTheme.button
-              ),
+        child: InkWell(
+          onTap: () => _openNoteForm(context),
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: EdgeInsets.all(
+              Styles.keyLineSpacing,
             ),
-            Container(
-              child: Icon(Icons.add),
-            )
-          ],
-        ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    'Take a note...',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+                Container(
+                  child: Icon(Icons.add),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  Widget _noteWidget(BuildContext context, int index) {
+    return  Container(
+      margin: EdgeInsets.all(Styles.verticalSpacing),
+      child: NoteWidget(note: notes[index]),
+    );
+  }
+
+  _openNoteForm(BuildContext context) {
+    Navigator.of(context).pushNamed("/note-form");
   }
 }
 

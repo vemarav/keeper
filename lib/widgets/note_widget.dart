@@ -10,12 +10,12 @@ class NoteWidget extends StatelessWidget {
     return InkWell(
       onTap: () { print("EditForm"); },
       borderRadius: BorderRadius.circular(
-        Styles.borderSize
+        Styles.borderRadius
       ),
       child: Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
-          Radius.circular(Styles.borderSize),
+          Radius.circular(Styles.borderRadius),
         ),
         border: Border.all(
           color: Theme.of(context).primaryColorLight,
