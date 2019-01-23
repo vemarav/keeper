@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keeper/themes/styles.dart';
 
 ThemeData lightTheme() {
   return ThemeData(
@@ -21,29 +22,35 @@ ThemeData lightTheme() {
       opacity: 0.9
     ),
 
+    textSelectionColor: Colors.grey[400],
+    cursorColor: Colors.black,
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.red
+  ),
+
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
       button: TextStyle(
         color: Colors.grey[700],
-        fontSize: 16.0
+        fontSize: Styles.smallFontSize
       ),
       headline: TextStyle(
         color: Colors.grey[900],
-        fontSize: 24.0,
+        fontSize: Styles.xxLargeFontSize,
       ),
       title: TextStyle(
         color: Colors.grey[850],
-        fontSize: 16.0,
+        fontSize: Styles.fontSize,
         fontWeight: FontWeight.bold,
       ),
       body1: TextStyle(
         color: Colors.grey[800],
-        fontSize: 14.0,
+        fontSize: Styles.smallFontSize,
       ),
       body2: TextStyle(
         color: Colors.grey[700],
-        fontSize: 12.0,
+        fontSize: Styles.xxSmallFontSize,
       )
     ),
   );

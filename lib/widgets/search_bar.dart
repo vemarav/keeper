@@ -9,14 +9,23 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var _itemPadding = EdgeInsets.symmetric(
+      vertical: 10.0,
+      horizontal: Styles.keyLineSpacing,
+    );
+
     return
       SliverAppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         floating: true,
-        expandedHeight: 80.0,
+        expandedHeight: 72.0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Card(
-          margin: EdgeInsets.all(Styles.horizontalSpacing),
+          margin: EdgeInsets.all(
+            Styles.allSpacing,
+          ),
           elevation: 5.0,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
@@ -28,26 +37,18 @@ class SearchBar extends StatelessWidget {
           ),
           child: Row(
             children: <Widget>[
-              InkWell(
-                onTap: this.menuCallBack,
-                child: Container(
-                  margin: EdgeInsets.all(
-                    Styles.keyLineSpacing,
-                  ),
-                  child: Icon(
-                    Icons.menu,
-                    size: 28,
-                    color: Theme.of(context).iconTheme.color,
-                  ),
+              IconButton(
+                onPressed: this.menuCallBack,
+                icon: Icon(
+                  Icons.menu,
                 ),
               ),
               Expanded(
                 child: InkWell(
+                  borderRadius: BorderRadius.circular(32.0),
                   onTap: this.searchCallBack,
                   child: Container(
-                    padding: EdgeInsets.all(
-                      Styles.keyLineSpacing,
-                    ),
+                    padding: _itemPadding,
                     child: Text(
                       'Search your notes',
                       style: TextStyle(
@@ -59,13 +60,13 @@ class SearchBar extends StatelessWidget {
                 ),
               ),
               InkWell(
+                borderRadius: BorderRadius.circular(32.0),
                 onTap: this.profileCallback,
                 child: Container(
-                  padding: EdgeInsets.all(
-                    Styles.keyLineSpacing,
-                  ),
+                  padding: _itemPadding,
                   child: Image.network(Constants.profileImageUri),
-                ),),
+                ),
+              ),
             ],
           ),
         ),

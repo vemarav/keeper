@@ -149,8 +149,9 @@ class NotesState extends State<Notes> {
           onTap: () => _openNoteForm(context),
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
-            padding: EdgeInsets.all(
-              Styles.keyLineSpacing,
+            padding: EdgeInsets.symmetric(
+              horizontal: Styles.horizontalSpacing,
+              vertical: Styles.keyLineSpacing,
             ),
             child: Row(
               children: <Widget>[

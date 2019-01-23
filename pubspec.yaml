@@ -2,6 +2,9 @@ name: keeper
 description: A new Flutter project.
 
 dependencies:
+  sqflite: any
+  path_provider: any
+  intl: any
   flutter:
     sdk: flutter
 
