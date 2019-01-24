@@ -9,7 +9,7 @@ class NoteForm extends StatefulWidget {
 class NoteFormState extends State<NoteForm> {
 
   final _noteFormKey = GlobalKey<FormState>();
-
+  String title;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,20 @@ class NoteFormState extends State<NoteForm> {
                     border: InputBorder.none,
                     errorStyle: TextStyle(
                       fontSize: Styles.smallFontSize,
-                    )
+                    ),
                   ),
                   style: TextStyle(
                     fontSize: Styles.xLargeFontSize,
                     color: Colors.black,
                   ),
+                  onSaved: (value) {
+                    this.setState(() {
+                      this.title = value;
+                    });
+                  },
+                  onFieldSubmitted: (value) {
+                    print('onFieldSubmitted: $value');
+                  },
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter some text';
@@ -46,19 +54,7 @@ class NoteFormState extends State<NoteForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: RaisedButton(
-                    onPressed: () {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
-                      if (_noteFormKey.currentState.validate()) {
-                        // If the form is valid, we want to show a Snackbar
-                        Scaffold.of(context)
-                            .showSnackBar(
-                          SnackBar(
-                            content: Text('Processing Data'),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _validateAndSave,
                     child: Text('Submit'),
                   ),
                 ),
@@ -68,5 +64,21 @@ class NoteFormState extends State<NoteForm> {
         ),
       ),
     );
+  }
+
+  void _validateAndSave() {
+    // Validate will return true if the form is valid, or false if
+    // the form is invalid.
+    _noteFormKey.currentState.save();
+    if (_noteFormKey.currentState.validate()) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(this.title),
+          );
+        },
+      );
+    }
   }
 }

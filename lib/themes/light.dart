@@ -23,10 +23,8 @@ ThemeData lightTheme() {
     ),
 
     textSelectionColor: Colors.grey[400],
+    textSelectionHandleColor: Colors.black,
     cursorColor: Colors.black,
-  inputDecorationTheme: InputDecorationTheme(
-    fillColor: Colors.red
-  ),
 
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
