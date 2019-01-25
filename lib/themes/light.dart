@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:keeper/themes/styles.dart';
+import 'package:keeper/config/font_size.dart';
 
 ThemeData lightTheme() {
   return ThemeData(
@@ -24,6 +24,7 @@ ThemeData lightTheme() {
 
     textSelectionColor: Colors.grey[400],
     textSelectionHandleColor: Colors.black,
+
     cursorColor: Colors.black,
 
     // Define the default TextTheme. Use this to specify the default
@@ -31,24 +32,24 @@ ThemeData lightTheme() {
     textTheme: TextTheme(
       button: TextStyle(
         color: Colors.grey[700],
-        fontSize: Styles.smallFontSize
+        fontSize: FontSize.small
       ),
       headline: TextStyle(
         color: Colors.grey[900],
-        fontSize: Styles.xxLargeFontSize,
+        fontSize: FontSize.xxLarge,
       ),
       title: TextStyle(
         color: Colors.grey[850],
-        fontSize: Styles.fontSize,
+        fontSize: FontSize.medium,
         fontWeight: FontWeight.bold,
       ),
       body1: TextStyle(
         color: Colors.grey[800],
-        fontSize: Styles.smallFontSize,
+        fontSize: FontSize.small,
       ),
       body2: TextStyle(
         color: Colors.grey[700],
-        fontSize: Styles.xxSmallFontSize,
+        fontSize: FontSize.xxSmall,
       )
     ),
   );

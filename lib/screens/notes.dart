@@ -1,98 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/widgets/note_widget.dart';
 import 'package:keeper/widgets/search_bar.dart';
-import 'package:keeper/themes/styles.dart';
-
-var notes = [
-  {
-    "id": 1,
-    "title": "Glass (2019)",
-    "content": "Security guard David Dunn uses his "
-        "supernatural abilities to track Kevin Wendell"
-        " Crumb, a disturbed man who has twenty-four "
-        "personalities."
-  },
-  {
-    "id": 2,
-    "title": "The Heiresses (2018)",
-    "content": "Chela and Chiquita are both descended"
-        " from wealthy families in Asunción and have "
-        "been together for over 30 years. But recentl"
-        "y, their financial situation has worsened an"
-        "d they begin selling off their inherited pos"
-        "sessions. But when their debts lead to Chiqu"
-        "ita being imprisoned on fraud charges, Chela"
-        " is forced to face a new reality."
-  },
-  {
-    "id": 3,
-    "title": "An Acceptable Loss (2018)",
-    "content": "Former top U.S. security adviser Elizabeth "
-        "\"Libby\" Lamm (Sumpter) is threatened by associat"
-        "es from her dark past including Rachel Burke (Curt"
-        "is), a steely, commanding politician with an unwav"
-        "ering knack for achieving her goals. "
-  },
-  {
-    "id": 1,
-    "title": "Glass (2019)",
-    "content": "Security guard David Dunn uses his "
-        "supernatural abilities to track Kevin Wendell"
-        " Crumb, a disturbed man who has twenty-four "
-        "personalities."
-  },
-  {
-    "id": 2,
-    "title": "The Heiresses (2018)",
-    "content": "Chela and Chiquita are both descended"
-        " from wealthy families in Asunción and have "
-        "been together for over 30 years. But recentl"
-        "y, their financial situation has worsened an"
-        "d they begin selling off their inherited pos"
-        "sessions. But when their debts lead to Chiqu"
-        "ita being imprisoned on fraud charges, Chela"
-        " is forced to face a new reality."
-  },
-  {
-    "id": 3,
-    "title": "An Acceptable Loss (2018)",
-    "content": "Former top U.S. security adviser Elizabeth "
-        "\"Libby\" Lamm (Sumpter) is threatened by associat"
-        "es from her dark past including Rachel Burke (Curt"
-        "is), a steely, commanding politician with an unwav"
-        "ering knack for achieving her goals. "
-  },
-  {
-    "id": 1,
-    "title": "Glass (2019)",
-    "content": "Security guard David Dunn uses his "
-        "supernatural abilities to track Kevin Wendell"
-        " Crumb, a disturbed man who has twenty-four "
-        "personalities."
-  },
-  {
-    "id": 2,
-    "title": "The Heiresses (2018)",
-    "content": "Chela and Chiquita are both descended"
-        " from wealthy families in Asunción and have "
-        "been together for over 30 years. But recentl"
-        "y, their financial situation has worsened an"
-        "d they begin selling off their inherited pos"
-        "sessions. But when their debts lead to Chiqu"
-        "ita being imprisoned on fraud charges, Chela"
-        " is forced to face a new reality."
-  },
-  {
-    "id": 3,
-    "title": "An Acceptable Loss (2018)",
-    "content": "Former top U.S. security adviser Elizabeth "
-        "\"Libby\" Lamm (Sumpter) is threatened by associat"
-        "es from her dark past including Rachel Burke (Curt"
-        "is), a steely, commanding politician with an unwav"
-        "ering knack for achieving her goals. "
-  }
-];
-
+import 'package:keeper/config/spacing.dart';
+import 'package:keeper/config/constants.dart';
+import 'package:keeper/config/strings.dart';
 
 class Notes extends StatefulWidget {
   @override
@@ -101,7 +12,9 @@ class Notes extends StatefulWidget {
 }
 
 class NotesState extends State<Notes> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,62 +23,74 @@ class NotesState extends State<Notes> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[
-            SearchBar(
-              searchCallBack: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Implement Search'),
-                    );
-                  },
-                );
-              },
-              menuCallBack: () {
-                _scaffoldKey.currentState.openDrawer();
-              },
-              profileCallback: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Implement Profile'),
-                    );
-                  },
-                );
-              },
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                _noteWidget,
-                childCount: notes.length,
-              ),
-            ),
+            _silverAppBar(),
+            _silverList(),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: InkWell(
-          onTap: () => _openNoteForm(context),
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            padding: EdgeInsets.symmetric(
-              horizontal: Styles.horizontalSpacing,
-              vertical: Styles.keyLineSpacing,
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    'Take a note...',
-                    style: Theme.of(context).textTheme.button,
-                  ),
+      bottomNavigationBar: _bottomAppBar(),
+    );
+  }
+
+  Widget _silverList() {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        _noteWidget,
+        childCount: notes.length,
+      ),
+    );
+  }
+
+  Widget _silverAppBar() {
+    return SearchBar(
+      searchCallBack: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Implement Search'),
+            );
+          },
+        );
+      },
+      menuCallBack: () {
+        _scaffoldKey.currentState.openDrawer();
+      },
+      profileCallback: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Implement Profile'),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _bottomAppBar() {
+    return BottomAppBar(
+      child: InkWell(
+        onTap: () => _openNoteForm(null),
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          padding: EdgeInsets.symmetric(
+            horizontal: Spacing.horizontal,
+            vertical: Spacing.keyLine,
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  Strings.takeANote,
+                  style: Theme.of(context).textTheme.button,
                 ),
-                Container(
-                  child: Icon(Icons.add),
-                )
-              ],
-            ),
+              ),
+              Container(
+                child: Icon(Icons.add),
+              )
+            ],
           ),
         ),
       ),
@@ -174,13 +99,15 @@ class NotesState extends State<Notes> {
 
   Widget _noteWidget(BuildContext context, int index) {
     return  Container(
-      margin: EdgeInsets.all(Styles.verticalSpacing),
-      child: NoteWidget(note: notes[index]),
+      margin: EdgeInsets.all(Spacing.vertical),
+      child: NoteWidget(note: notes[index], openForm: () => _openNoteForm(index)),
     );
   }
 
-  _openNoteForm(BuildContext context) {
-    Navigator.of(context).pushNamed("/note-form");
+  void _openNoteForm(int index) {
+    String route = Strings.notesFormRouteName;
+    if(index != null) route = "$route:$index";
+    Navigator.of(context).pushNamed(route);
   }
 }
 

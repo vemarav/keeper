@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keeper/themes/styles.dart';
-import 'package:keeper/static/constants.dart';
+import 'package:keeper/config/spacing.dart';
+import 'package:keeper/config/k_radius.dart';
+import 'package:keeper/config/strings.dart';
 
 class SearchBar extends StatelessWidget {
 
@@ -12,7 +13,7 @@ class SearchBar extends StatelessWidget {
 
     var _itemPadding = EdgeInsets.symmetric(
       vertical: 10.0,
-      horizontal: Styles.keyLineSpacing,
+      horizontal: Spacing.keyLine,
     );
 
     return
@@ -24,12 +25,12 @@ class SearchBar extends StatelessWidget {
         backgroundColor: Colors.transparent,
         flexibleSpace: Card(
           margin: EdgeInsets.all(
-            Styles.allSpacing,
+            Spacing.all,
           ),
           elevation: 5.0,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                Styles.borderRadius,
+                KRadius.medium,
               ),
               side: BorderSide(
                 color: Theme.of(context).primaryColorLight,
@@ -64,7 +65,7 @@ class SearchBar extends StatelessWidget {
                 onTap: this.profileCallback,
                 child: Container(
                   padding: _itemPadding,
-                  child: Image.network(Constants.profileImageUri),
+                  child: Image.network(Strings.profileImageUri),
                 ),
               ),
             ],
