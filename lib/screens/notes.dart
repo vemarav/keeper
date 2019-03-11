@@ -1,32 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:keeper/models/note.dart';
 import 'package:keeper/widgets/note_widget.dart';
 import 'package:keeper/widgets/search_bar.dart';
 import 'package:keeper/config/spacing.dart';
-import 'package:keeper/config/constants.dart';
 import 'package:keeper/config/strings.dart';
+import 'package:keeper/presenters/note.dart';
+import 'package:keeper/providers/note_provider.dart';
 
 class Notes extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => NotesState();
-
 }
 
-class NotesState extends State<Notes> {
-
+class NotesState extends State<Notes> implements NoteView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Note> _notes = <Note>[];
+  int _limit = 50;
+  NotePresenter _presenter;
+  bool _isLoading = true;
+  NoteProvider _provider = new NoteProvider();
+
+  @override
+  void initState() {
+    super.initState();
+//    scrollController.addListener(_paginate);
+    _isLoading = true;
+    _presenter = new NotePresenter(this, _provider);
+  }
 
   @override
   Widget build(BuildContext context) {
+    _presenter.fetch(_limit);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            _silverAppBar(),
-            _silverList(),
-          ],
-        ),
+        child: this._isLoading
+            ? Center(child: CircularProgressIndicator())
+            : CustomScrollView(
+                slivers: <Widget>[
+                  _silverAppBar(),
+                  _silverList(),
+                ],
+              ),
       ),
       bottomNavigationBar: _bottomAppBar(),
     );
@@ -36,7 +52,7 @@ class NotesState extends State<Notes> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         _noteWidget,
-        childCount: notes.length,
+        childCount: this._notes.length,
       ),
     );
   }
@@ -98,17 +114,35 @@ class NotesState extends State<Notes> {
   }
 
   Widget _noteWidget(BuildContext context, int index) {
-    return  Container(
+    return Container(
       margin: EdgeInsets.all(Spacing.vertical),
-      child: NoteWidget(note: notes[index], openForm: () => _openNoteForm(index)),
+      child: NoteWidget(
+          note: this._notes[index],
+          openForm: () => _openNoteForm(index)),
     );
   }
 
   void _openNoteForm(int index) {
     String route = Strings.notesFormRouteName;
-    if(index != null) route = "$route:$index";
+    if(index != null && this._notes[index] != null) {
+      Note note = this._notes[index];
+      if (note.id != null) route = "$route:${note.id}";
+    }
     Navigator.of(context).pushNamed(route);
   }
+
+  @override
+  void onLoadComplete(List<Note> notes) {
+    this.setState(() {
+      this._notes = notes;
+      this._isLoading = false;
+    });
+  }
+
+  @override
+  void onLoadError(error) {
+    this.setState(() {
+      this._isLoading = false;
+    });
+  }
 }
-
-

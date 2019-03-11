@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/config/k_radius.dart';
 import 'package:keeper/config/spacing.dart';
+import 'package:keeper/models/note.dart';
 
 class NoteWidget extends StatelessWidget {
 
-  final Map note;
+  final Note note;
   final VoidCallback openForm;
   NoteWidget({this.note, this.openForm});
 
@@ -31,7 +32,7 @@ class NoteWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              note["title"],
+              note.title,
               style: Theme.of(context).textTheme.title,
             ),
             Container(
@@ -40,7 +41,7 @@ class NoteWidget extends StatelessWidget {
               ),
             ),
             Text(
-              note["note"],
+              note.content,
               style: Theme.of(context).textTheme.body1,
             )
           ],

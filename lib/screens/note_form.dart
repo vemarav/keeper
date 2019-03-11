@@ -1,12 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:keeper/config/spacing.dart';
 import 'package:keeper/config/font_size.dart';
 import 'package:keeper/config/strings.dart';
-import 'package:keeper/config/constants.dart';
+import 'package:keeper/providers/note_provider.dart';
+import 'package:keeper/models/note.dart';
 
 class NoteForm extends StatefulWidget {
-
   final int id;
+
   NoteForm({this.id});
 
   @override
@@ -14,21 +16,34 @@ class NoteForm extends StatefulWidget {
 }
 
 class NoteFormState extends State<NoteForm> {
-
   final _noteFormKey = GlobalKey<FormState>();
   int id;
-  String title, note;
+  NoteProvider _noteProvider;
+  Note note;
+  TextEditingController titleController, noteController;
 
-  NoteFormState({this.id});
-
-  String _getTitle(index) {
-    if(index != null) return notes[index]['title'];
-    return '';
+  NoteFormState({this.id}) {
+    this.note = Note(id: this.id);
   }
 
-  String _getNote(index) {
-    if(index != null) return notes[index]['note'];
-    return '';
+  @override
+  void initState() {
+    super.initState();
+    _noteProvider = new NoteProvider();
+    titleController = TextEditingController();
+    noteController = TextEditingController();
+    this.fetchNote();
+  }
+
+  fetchNote() async {
+    if (this.id != null) {
+      Note note = await _noteProvider.findBy(id: this.id);
+      this.setState(() {
+        this.note = note;
+        titleController.text = note.title;
+        noteController.text = note.content;
+      });
+    }
   }
 
   @override
@@ -52,13 +67,13 @@ class NoteFormState extends State<NoteForm> {
           ),
         ),
       ),
-      bottomNavigationBar: _save()
+      bottomNavigationBar: _save(),
     );
   }
 
   Widget _titleInput() {
     return TextFormField(
-      initialValue: _getTitle(this.id),
+      controller: titleController,
       maxLines: null,
       decoration: InputDecoration(
         hintText: Strings.title,
@@ -73,7 +88,7 @@ class NoteFormState extends State<NoteForm> {
       ),
       onSaved: (value) {
         this.setState(() {
-          this.title = value;
+          note.title = value;
         });
       },
       onFieldSubmitted: (value) {
@@ -89,7 +104,7 @@ class NoteFormState extends State<NoteForm> {
 
   Widget _noteInput() {
     return TextFormField(
-      initialValue: _getNote(this.id),
+      controller: noteController,
       maxLines: null,
       decoration: InputDecoration(
         hintText: Strings.note,
@@ -104,7 +119,7 @@ class NoteFormState extends State<NoteForm> {
       ),
       onSaved: (value) {
         this.setState(() {
-          this.note = value;
+          note.content = value;
         });
       },
       onFieldSubmitted: (value) {
@@ -131,23 +146,24 @@ class NoteFormState extends State<NoteForm> {
     );
   }
 
-  void _validateAndSave() {
+  void _validateAndSave() async {
     // Validate will return true if the form is valid, or false if
     // the form is invalid!
     if (_noteFormKey.currentState.validate()) {
       _noteFormKey.currentState.save();
 
-      Map note = {
-        "id": notes.length + 1,
-        "title": this.title,
-        "note": this.note
-      };
+      Note note = new Note(
+        id: this.id,
+        title: this.note.title,
+        content: this.note.content,
+      );
 
-      if(this.id != null) {
-        notes[this.id] = note;
+      if(this.id == null) {
+        await this._noteProvider.insert(note);
       } else {
-        notes.add(note);
+        await this._noteProvider.update(note);
       }
+
       Navigator.of(context).pop();
     }
   }
