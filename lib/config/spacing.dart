@@ -6,4 +6,5 @@ class Spacing {
   static final double horizontal = 8.0;
   static final double vertical = 8.0;
   static final double statusBarHeight = 32.0;
+  static final double xKeyLine = 20.0;
 }

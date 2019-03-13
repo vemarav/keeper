@@ -1,6 +1,6 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:keeper/config/spacing.dart';
+import 'package:keeper/config/k_radius.dart';
 import 'package:keeper/config/font_size.dart';
 import 'package:keeper/config/strings.dart';
 import 'package:keeper/providers/note_provider.dart';
@@ -51,19 +51,41 @@ class NoteFormState extends State<NoteForm> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(top: Spacing.statusBarHeight),
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.keyLine,
-          ),
-          child: Form(
-            key: _noteFormKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _titleInput(),
-                _noteInput(),
-              ],
-            ),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  InkWell(
+                    borderRadius: BorderRadius.circular(KRadius.xxLarge),
+                    child: Padding(
+                      child: Icon(
+                        Icons.chevron_left,
+                        size: 32.0,
+                      ),
+                      padding: EdgeInsets.all(Spacing.all),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              Form(
+                key: _noteFormKey,
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: Spacing.xKeyLine,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _titleInput(),
+                      _noteInput(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

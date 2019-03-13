@@ -48,9 +48,10 @@ class NoteProvider {
 
     note.updatedAt = DateTime.now();
 
-    print(note.toUpdateMap());
-
-    await _db.update(Note.tableName, note.toUpdateMap());
+    await _db.update(
+      Note.tableName, note.toUpdateMap(),
+      where: "id = ?", whereArgs: [note.id]
+    );
 
     return note;
   }
