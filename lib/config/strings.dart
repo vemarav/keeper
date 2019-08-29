@@ -5,6 +5,10 @@ class Strings {
   static final title = "Title";
   static final enterText = "Please enter some text";
   static final note = "Note";
+  static final undo = "UNDO";
+
+  static final deleteNote = "Note deleted";
+  static final deleteNoteError = "Action cannot be performed";
 
   static final String profileImageUri =
       'https://res.cloudinary.com/vemarav/' +

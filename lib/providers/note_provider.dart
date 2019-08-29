@@ -5,9 +5,29 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:keeper/models/note.dart';
 import 'package:keeper/config/database.dart';
+import 'package:keeper/presenters/note_presenter.dart';
 
 class NoteProvider {
   Database _db;
+
+  static final List<IObservable> observers = [];
+
+  void addObserver(IObservable observer) {
+    observers.add(observer);
+  }
+
+  void notifyObservers() {
+    observers.forEach((observer) => observer.notify());
+  }
+
+  Future openConnection() async {
+    if (_db == null) {
+      Directory path = await getApplicationDocumentsDirectory();
+      String dbPath = join(path.path, dataBaseName);
+
+      _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
+    }
+  }
 
   Future _create(Database db, int version) async {
     print(Note.createTable);
@@ -22,37 +42,27 @@ class NoteProvider {
   }
 
   Future<Note> insert(Note note) async {
-    if (_db == null) {
-      Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
-
-      _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
-    }
-
+    await openConnection();
     note.createdAt = DateTime.now();
     note.updatedAt = DateTime.now();
-
     note.id = await _db.insert(Note.tableName, note.toMap());
-
+    notifyObservers();
     return note;
   }
 
   Future<Note> update(Note note) async {
-    if (_db == null) {
-      Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
-      _db = await openDatabase(
-        dbPath, version: 1, onCreate: this._create,
-      );
-    }
-
+    await openConnection();
     note.updatedAt = DateTime.now();
+    await _db.update(Note.tableName, note.toUpdateMap(),
+        where: "id = ?", whereArgs: [note.id]);
+    notifyObservers();
+    return note;
+  }
 
-    await _db.update(
-      Note.tableName, note.toUpdateMap(),
-      where: "id = ?", whereArgs: [note.id]
-    );
-
+  Future<Note> destroy(Note note) async {
+    await openConnection();
+    _db.delete(Note.tableName, where: "id = ?", whereArgs: [note.id]);
+    notifyObservers();
     return note;
   }
 
@@ -68,8 +78,7 @@ class NoteProvider {
         columns: Note.columns,
         limit: limit,
         offset: limit - 50,
-        orderBy: "id DESC"
-    );
+        orderBy: "id DESC");
 
     List<Note> _notes = <Note>[];
 
@@ -89,13 +98,8 @@ class NoteProvider {
       _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
     }
 
-    List results = await _db.query(
-        Note.tableName,
-        columns: Note.columns,
-        where: "title = ?",
-        whereArgs: [id],
-        limit: 1
-    );
+    List results = await _db.query(Note.tableName,
+        columns: Note.columns, where: "title = ?", whereArgs: [id], limit: 1);
 
     Note note = Note.fromMap(results[0]);
 
@@ -113,28 +117,26 @@ class NoteProvider {
     var _whereArgs = [];
     String _whereString = '';
 
-    if(id != null) {
+    if (id != null) {
       _whereArgs.add(id);
       _whereString = 'id = ?';
     }
 
-    if(title != null) {
+    if (title != null) {
       _whereArgs.add(title);
       _whereString = 'title = ?';
     }
-    
-    if(content != null) {
+
+    if (content != null) {
       _whereArgs.add(content);
       _whereString = 'content = ?';
     }
 
-    List results = await _db.query(
-        Note.tableName,
+    List results = await _db.query(Note.tableName,
         columns: Note.columns,
         where: _whereString,
         whereArgs: _whereArgs,
-        limit: 1
-    );
+        limit: 1);
 
     Note note = Note.fromMap(results[0]);
 
@@ -144,5 +146,4 @@ class NoteProvider {
   Future close() async {
     _db.close();
   }
-
 }

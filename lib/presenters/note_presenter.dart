@@ -2,7 +2,11 @@ import 'dart:async';
 import 'package:keeper/models/note.dart';
 import 'package:keeper/providers/note_provider.dart';
 
-abstract class NoteView {
+abstract class IObservable {
+  void notify() {}
+}
+
+abstract class NoteView extends IObservable {
   void onLoadComplete(List<Note> notes);
   void onLoadError(var error);
 }

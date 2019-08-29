@@ -4,7 +4,7 @@ import 'package:keeper/widgets/note_widget.dart';
 import 'package:keeper/widgets/search_bar.dart';
 import 'package:keeper/config/spacing.dart';
 import 'package:keeper/config/strings.dart';
-import 'package:keeper/presenters/note.dart';
+import 'package:keeper/presenters/note_presenter.dart';
 import 'package:keeper/providers/note_provider.dart';
 
 class Notes extends StatefulWidget {
@@ -15,6 +15,7 @@ class Notes extends StatefulWidget {
 class NotesState extends State<Notes> implements NoteView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Note> _notes = <Note>[];
+  Map<int, Note> _deleteNotes = <int, Note>{};
   int _limit = 50;
   NotePresenter _presenter;
   bool _isLoading = true;
@@ -24,24 +25,28 @@ class NotesState extends State<Notes> implements NoteView {
   void initState() {
     super.initState();
 //    scrollController.addListener(_paginate);
+    _provider.addObserver(this);
     _isLoading = true;
     _presenter = new NotePresenter(this, _provider);
+    _presenter.fetch(_limit);
   }
 
   @override
   Widget build(BuildContext context) {
-    _presenter.fetch(_limit);
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(),
       body: SafeArea(
         child: this._isLoading
             ? Center(child: CircularProgressIndicator())
-            : CustomScrollView(
-                slivers: <Widget>[
-                  _silverAppBar(),
-                  _silverList(),
-                ],
+            : Container(
+                margin: EdgeInsets.all(Spacing.horizontal),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    _silverAppBar(),
+                    _silverList(),
+                  ],
+                ),
               ),
       ),
       bottomNavigationBar: _bottomAppBar(),
@@ -91,6 +96,7 @@ class NotesState extends State<Notes> implements NoteView {
         onTap: () => _openNoteForm(null),
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
+          margin: EdgeInsets.symmetric(horizontal: Spacing.horizontal),
           padding: EdgeInsets.symmetric(
             horizontal: Spacing.horizontal,
             vertical: Spacing.keyLine,
@@ -100,11 +106,14 @@ class NotesState extends State<Notes> implements NoteView {
               Expanded(
                 child: Text(
                   Strings.takeANote,
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context).textTheme.title,
                 ),
               ),
               Container(
-                child: Icon(Icons.add),
+                child: IconTheme(
+                  data: Theme.of(context).primaryIconTheme,
+                  child: Icon(Icons.add),
+                ),
               )
             ],
           ),
@@ -117,18 +126,60 @@ class NotesState extends State<Notes> implements NoteView {
     return Container(
       margin: EdgeInsets.all(Spacing.vertical),
       child: NoteWidget(
-          note: this._notes[index],
-          openForm: () => _openNoteForm(index)),
+        note: this._notes[index],
+        openForm: () => _openNoteForm(index),
+        onDismissed: () => _deleteNote(index),
+      ),
     );
   }
 
   void _openNoteForm(int index) {
     String route = Strings.notesFormRouteName;
-    if(index != null && this._notes[index] != null) {
+    if (index != null && this._notes[index] != null) {
       Note note = this._notes[index];
       if (note.id != null) route = "$route:${note.id}";
     }
     Navigator.of(context).pushNamed(route);
+  }
+
+  void _deleteNote(int index) {
+    Note note = _notes[index];
+    try {
+      _notes.removeAt(index);
+      _addToDeleteNote(note);
+      _scaffoldKey.currentState
+          .showSnackBar(
+            SnackBar(
+              content: Text(Strings.deleteNote),
+              action: SnackBarAction(
+                  label: Strings.undo,
+                  textColor: Colors.blue,
+                  onPressed: () => _removeFromDeleteNotes(note)),
+            ),
+          )
+          .closed
+          .then((reason) => __deleteNotes());
+    } catch (ex) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(Strings.deleteNoteError),
+        ),
+      );
+    }
+  }
+
+  void _addToDeleteNote(Note note) {
+    _deleteNotes[note.id] = note;
+  }
+
+  void _removeFromDeleteNotes(Note note) {
+    _deleteNotes.remove(note.id);
+  }
+
+  void __deleteNotes() {
+    _deleteNotes.forEach((id, note) => _provider.destroy(note));
+    _deleteNotes = {};
+    notify();
   }
 
   @override
@@ -144,5 +195,10 @@ class NotesState extends State<Notes> implements NoteView {
     this.setState(() {
       this._isLoading = false;
     });
+  }
+
+  @override
+  notify() {
+    _presenter.fetch(_limit);
   }
 }

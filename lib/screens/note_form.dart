@@ -35,17 +35,6 @@ class NoteFormState extends State<NoteForm> {
     this.fetchNote();
   }
 
-  fetchNote() async {
-    if (this.id != null) {
-      Note note = await _noteProvider.findBy(id: this.id);
-      this.setState(() {
-        this.note = note;
-        titleController.text = note.title;
-        noteController.text = note.content;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +53,7 @@ class NoteFormState extends State<NoteForm> {
                       ),
                       padding: EdgeInsets.all(Spacing.all),
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
+                    onTap: _onBackPressed
                   ),
                 ],
               ),
@@ -100,13 +87,12 @@ class NoteFormState extends State<NoteForm> {
       decoration: InputDecoration(
         hintText: Strings.title,
         border: InputBorder.none,
-        errorStyle: TextStyle(
-          fontSize: FontSize.small,
-        ),
+        errorStyle: TextStyle(fontSize: FontSize.small),
       ),
       style: TextStyle(
         fontSize: FontSize.xLarge,
         color: Colors.black,
+        fontWeight: FontWeight.bold,
       ),
       onSaved: (value) {
         this.setState(() {
@@ -168,7 +154,18 @@ class NoteFormState extends State<NoteForm> {
     );
   }
 
-  void _validateAndSave() async {
+  void fetchNote() async {
+    if (this.id != null) {
+      Note note = await _noteProvider.findBy(id: this.id);
+      this.setState(() {
+        this.note = note;
+        titleController.text = note.title;
+        noteController.text = note.content;
+      });
+    }
+  }
+
+  void _validateAndSave({navigate: true}) async {
     // Validate will return true if the form is valid, or false if
     // the form is invalid!
     if (_noteFormKey.currentState.validate()) {
@@ -180,13 +177,18 @@ class NoteFormState extends State<NoteForm> {
         content: this.note.content,
       );
 
-      if(this.id == null) {
+      if (this.id == null) {
         await this._noteProvider.insert(note);
       } else {
         await this._noteProvider.update(note);
       }
 
-      Navigator.of(context).pop();
+      if (navigate) Navigator.of(context).pop();
     }
+  }
+
+  void _onBackPressed() {
+    Navigator.of(context).pop();
+    _validateAndSave(navigate: false);
   }
 }
