@@ -4,6 +4,7 @@ class Note {
   String content;
   DateTime createdAt;
   DateTime updatedAt;
+  bool isSelected;
 
   Note({this.id, this.title, this.content});
 

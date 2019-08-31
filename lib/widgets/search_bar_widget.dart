@@ -5,8 +5,8 @@ import 'package:keeper/config/strings.dart';
 
 class SearchBar extends StatelessWidget {
 
-  final VoidCallback searchCallBack, menuCallBack, profileCallback;
-  SearchBar({this.searchCallBack, this.menuCallBack, this.profileCallback});
+  final VoidCallback onSearchPressed, onMenuPressed, onProfilePressed;
+  SearchBar({this.onSearchPressed, this.onMenuPressed, this.onProfilePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class SearchBar extends StatelessWidget {
           child: Row(
             children: <Widget>[
               IconButton(
-                onPressed: this.menuCallBack,
+                onPressed: this.onMenuPressed,
                 icon: Icon(
                   Icons.menu,
                 ),
@@ -47,7 +47,7 @@ class SearchBar extends StatelessWidget {
               Expanded(
                 child: InkWell(
                   borderRadius: BorderRadius.circular(32.0),
-                  onTap: this.searchCallBack,
+                  onTap: this.onSearchPressed,
                   child: Container(
                     padding: _itemPadding,
                     child: Text(
@@ -62,7 +62,7 @@ class SearchBar extends StatelessWidget {
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(32.0),
-                onTap: this.profileCallback,
+                onTap: this.onProfilePressed,
                 child: Container(
                   padding: _itemPadding,
                   child: Image.network(Strings.profileImageUri),

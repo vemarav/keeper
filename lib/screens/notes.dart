@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/models/note.dart';
 import 'package:keeper/widgets/note_widget.dart';
-import 'package:keeper/widgets/search_bar.dart';
+import 'package:keeper/widgets/search_bar_widget.dart';
+import 'package:keeper/widgets/options_bar_widget.dart';
 import 'package:keeper/config/spacing.dart';
 import 'package:keeper/config/strings.dart';
 import 'package:keeper/presenters/note_presenter.dart';
@@ -20,11 +21,11 @@ class NotesState extends State<Notes> implements NoteView {
   NotePresenter _presenter;
   bool _isLoading = true;
   NoteProvider _provider = new NoteProvider();
+  bool enabledMultiSelect = false;
 
   @override
   void initState() {
     super.initState();
-//    scrollController.addListener(_paginate);
     _provider.addObserver(this);
     _isLoading = true;
     _presenter = new NotePresenter(this, _provider);
@@ -37,13 +38,12 @@ class NotesState extends State<Notes> implements NoteView {
       key: _scaffoldKey,
       drawer: Drawer(),
       body: SafeArea(
-        child: this._isLoading
+        child: _isLoading
             ? Center(child: CircularProgressIndicator())
             : Container(
-                margin: EdgeInsets.all(Spacing.horizontal),
                 child: CustomScrollView(
                   slivers: <Widget>[
-                    _silverAppBar(),
+                    _appBar(),
                     _silverList(),
                   ],
                 ),
@@ -57,14 +57,18 @@ class NotesState extends State<Notes> implements NoteView {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         _noteWidget,
-        childCount: this._notes.length,
+        childCount: _notes.length,
       ),
     );
   }
 
-  Widget _silverAppBar() {
+  Widget _appBar() {
+    return enabledMultiSelect ? _optionsAppBar() : _searchBar();
+  }
+
+  Widget _searchBar() {
     return SearchBar(
-      searchCallBack: () {
+      onSearchPressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -74,10 +78,10 @@ class NotesState extends State<Notes> implements NoteView {
           },
         );
       },
-      menuCallBack: () {
+      onMenuPressed: () {
         _scaffoldKey.currentState.openDrawer();
       },
-      profileCallback: () {
+      onProfilePressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -87,6 +91,13 @@ class NotesState extends State<Notes> implements NoteView {
           },
         );
       },
+    );
+  }
+
+  Widget _optionsAppBar() {
+    return OptionsBar(
+      onClosePressed: _cancelMultiSelect,
+      onDeletePressed: _deleteSelected,
     );
   }
 
@@ -126,17 +137,32 @@ class NotesState extends State<Notes> implements NoteView {
     return Container(
       margin: EdgeInsets.all(Spacing.vertical),
       child: NoteWidget(
-        note: this._notes[index],
-        openForm: () => _openNoteForm(index),
-        onDismissed: () => _deleteNote(index),
+        enabledMultiSelect: enabledMultiSelect,
+        note: _notes[index],
+        onEditPressed: () => _openNoteForm(index),
+        onSelectPressed: () => _onSelect(index),
+        onDismissPressed: () => _deleteNote(index),
       ),
     );
   }
 
+  void _cancelMultiSelect() {
+    setState(() {
+      enabledMultiSelect = false;
+    });
+  }
+
+  void _deleteSelected() {
+    __deleteNotes();
+    setState(() {
+      enabledMultiSelect = false;
+    });
+  }
+
   void _openNoteForm(int index) {
     String route = Strings.notesFormRouteName;
-    if (index != null && this._notes[index] != null) {
-      Note note = this._notes[index];
+    if (index != null && _notes[index] != null) {
+      Note note = _notes[index];
       if (note.id != null) route = "$route:${note.id}";
     }
     Navigator.of(context).pushNamed(route);
@@ -168,6 +194,24 @@ class NotesState extends State<Notes> implements NoteView {
     }
   }
 
+  void _onSelect(int index) {
+    _notes[index]?.isSelected = true;
+    Note note = _notes[index];
+    if (note != null) {
+      // toggle selection (if-else)
+      if (_deleteNotes[note.id] != null) {
+        _deleteNotes.remove(note.id);
+        _notes[index].isSelected = false;
+      } else {
+        _deleteNotes[note.id] = note;
+      }
+
+      setState(() {
+        enabledMultiSelect = _deleteNotes.length > 0;
+      });
+    }
+  }
+
   void _addToDeleteNote(Note note) {
     _deleteNotes[note.id] = note;
   }
@@ -179,26 +223,25 @@ class NotesState extends State<Notes> implements NoteView {
   void __deleteNotes() {
     _deleteNotes.forEach((id, note) => _provider.destroy(note));
     _deleteNotes = {};
-    notify();
   }
 
   @override
   void onLoadComplete(List<Note> notes) {
-    this.setState(() {
-      this._notes = notes;
-      this._isLoading = false;
+    setState(() {
+      _notes = notes;
+      _isLoading = false;
     });
   }
 
   @override
   void onLoadError(error) {
-    this.setState(() {
-      this._isLoading = false;
+    setState(() {
+      _isLoading = false;
     });
   }
 
   @override
-  notify() {
+  notifyDataSetChanged() {
     _presenter.fetch(_limit);
   }
 }

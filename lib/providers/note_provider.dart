@@ -17,7 +17,7 @@ class NoteProvider {
   }
 
   void notifyObservers() {
-    observers.forEach((observer) => observer.notify());
+    observers.forEach((observer) => observer.notifyDataSetChanged());
   }
 
   Future openConnection() async {

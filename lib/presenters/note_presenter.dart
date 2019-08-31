@@ -3,7 +3,7 @@ import 'package:keeper/models/note.dart';
 import 'package:keeper/providers/note_provider.dart';
 
 abstract class IObservable {
-  void notify() {}
+  void notifyDataSetChanged() {}
 }
 
 abstract class NoteView extends IObservable {
