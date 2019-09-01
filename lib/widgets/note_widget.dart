@@ -52,7 +52,7 @@ class NoteWidget extends StatelessWidget {
               KRadius.medium,
             ),
             border: Border.all(
-              color: note.isSelected == true
+              color: note.isSelected == true && enabledMultiSelect == true
                   ? Theme.of(context).primaryColor
                   : Theme.of(context).primaryColorLight,
               width: 1.0,

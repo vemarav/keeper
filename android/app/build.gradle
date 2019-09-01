@@ -47,7 +47,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            resValue "string", "app_name", "Keeper-debug"
+            resValue "string", "app_name", "KP-debug"
         }
         release {
             signingConfig signingConfigs.release

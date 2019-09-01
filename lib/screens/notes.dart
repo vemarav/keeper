@@ -147,9 +147,11 @@ class NotesState extends State<Notes> implements NoteView {
   }
 
   void _cancelMultiSelect() {
+    _deleteNotes = {};
     setState(() {
       enabledMultiSelect = false;
     });
+    notifyDataSetChanged();
   }
 
   void _deleteSelected() {
@@ -218,6 +220,7 @@ class NotesState extends State<Notes> implements NoteView {
 
   void _removeFromDeleteNotes(Note note) {
     _deleteNotes.remove(note.id);
+    notifyDataSetChanged();
   }
 
   void __deleteNotes() {
