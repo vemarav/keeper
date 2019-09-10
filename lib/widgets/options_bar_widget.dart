@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/config/spacing.dart';
-import 'package:keeper/config/k_radius.dart';
-import 'package:keeper/config/strings.dart';
 
 class OptionsBar extends StatelessWidget {
   final VoidCallback onClosePressed, onDeletePressed;

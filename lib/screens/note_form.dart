@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:keeper/config/spacing.dart';
-import 'package:keeper/config/k_radius.dart';
 import 'package:keeper/config/font_size.dart';
 import 'package:keeper/config/strings.dart';
 import 'package:keeper/providers/note_provider.dart';
 import 'package:keeper/models/note.dart';
+import 'package:keeper/config/components.dart';
 
 class NoteForm extends StatefulWidget {
   final int id;
@@ -44,17 +44,7 @@ class NoteFormState extends State<NoteForm> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  InkWell(
-                    borderRadius: BorderRadius.circular(KRadius.xxLarge),
-                    child: Padding(
-                      child: Icon(
-                        Icons.chevron_left,
-                        size: 32.0,
-                      ),
-                      padding: EdgeInsets.all(Spacing.all),
-                    ),
-                    onTap: _onBackPressed
-                  ),
+                  KBackButton(callback: _onBackPressed)
                 ],
               ),
               Form(
@@ -103,9 +93,7 @@ class NoteFormState extends State<NoteForm> {
         print('onFieldSubmitted: $value');
       },
       validator: (value) {
-        if (value.isEmpty) {
-          return Strings.enterText;
-        }
+        return value.isEmpty ? Strings.enterText : null;
       },
     );
   }
@@ -134,9 +122,7 @@ class NoteFormState extends State<NoteForm> {
         print('onFieldSubmitted: $value');
       },
       validator: (value) {
-        if (value.isEmpty) {
-          return Strings.enterText;
-        }
+        return value.isEmpty ? Strings.enterText : null;
       },
     );
   }

@@ -1,11 +1,13 @@
 class Strings {
   static final appTitle = "Keeper";
+  static final dataBaseName = 'keeper.db';
   static final save = "Save";
   static final takeANote = "Take a note...";
   static final title = "Title";
   static final enterText = "Please enter some text";
   static final note = "Note";
   static final undo = "UNDO";
+  static final search = "Search Keeper";
 
   static final deleteNote = "Note deleted";
   static final deleteNoteError = "Action cannot be performed";
@@ -17,4 +19,5 @@ class Strings {
 
   static final String notesRouteName = "/";
   static final String notesFormRouteName = "/note-form";
+  static final String searchRouteName = "/search";
 }

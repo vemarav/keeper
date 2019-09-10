@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 // import 'screens/screen.dart';
 import 'screens/notes.dart';
 import 'screens/note_form.dart';
+import 'screens/search.dart';
 ////////////////////////////////
 
 // import 'themes/styles.dart';
@@ -52,7 +53,8 @@ class Keeper extends StatelessWidget {
       theme: lightTheme(),
       routes: {
         Strings.notesRouteName: (BuildContext context) => Notes(),
-        Strings.notesFormRouteName: (BuildContext context) => NoteForm()
+        Strings.notesFormRouteName: (BuildContext context) => NoteForm(),
+        Strings.searchRouteName: (BuildContext context) => Search()
       },
       onGenerateRoute: _getRoute,
     );

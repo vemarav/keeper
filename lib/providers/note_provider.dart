@@ -4,8 +4,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:keeper/models/note.dart';
-import 'package:keeper/config/database.dart';
 import 'package:keeper/presenters/note_presenter.dart';
+import 'package:keeper/config/strings.dart';
 
 class NoteProvider {
   Database _db;
@@ -23,7 +23,7 @@ class NoteProvider {
   Future openConnection() async {
     if (_db == null) {
       Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
+      String dbPath = join(path.path, Strings.dataBaseName);
 
       _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
     }
@@ -36,7 +36,7 @@ class NoteProvider {
 
   Future create() async {
     Directory path = await getApplicationDocumentsDirectory();
-    String dbPath = join(path.path, dataBaseName);
+    String dbPath = join(path.path, Strings.dataBaseName);
 
     _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
   }
@@ -69,7 +69,7 @@ class NoteProvider {
   Future<List> fetchAll(int limit) async {
     if (_db == null) {
       Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
+      String dbPath = join(path.path, Strings.dataBaseName);
 
       _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
     }
@@ -93,7 +93,7 @@ class NoteProvider {
   Future<Note> find(int id) async {
     if (_db == null) {
       Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
+      String dbPath = join(path.path, Strings.dataBaseName);
 
       _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
     }
@@ -109,7 +109,7 @@ class NoteProvider {
   Future<Note> findBy({int id, String title, String content}) async {
     if (_db == null) {
       Directory path = await getApplicationDocumentsDirectory();
-      String dbPath = join(path.path, dataBaseName);
+      String dbPath = join(path.path, Strings.dataBaseName);
 
       _db = await openDatabase(dbPath, version: 1, onCreate: this._create);
     }

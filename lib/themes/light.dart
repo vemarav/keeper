@@ -29,23 +29,24 @@ ThemeData lightTheme() {
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-        button: TextStyle(color: Colors.grey[700], fontSize: FontSize.small),
-        headline: TextStyle(
-          color: Colors.grey[900],
-          fontSize: FontSize.xxLarge,
-        ),
-        title: TextStyle(
-          color: Colors.grey[850],
-          fontSize: FontSize.medium,
-          fontWeight: FontWeight.bold,
-        ),
-        body1: TextStyle(
-          color: Colors.grey[800],
-          fontSize: FontSize.small,
-        ),
-        body2: TextStyle(
-          color: Colors.grey[700],
-          fontSize: FontSize.xxSmall,
-        )),
+      button: TextStyle(color: Colors.grey[700], fontSize: FontSize.small),
+      headline: TextStyle(
+        color: Colors.grey[900],
+        fontSize: FontSize.xxLarge,
+      ),
+      title: TextStyle(
+        color: Colors.grey[850],
+        fontSize: FontSize.medium,
+        fontWeight: FontWeight.bold,
+      ),
+      body1: TextStyle(
+        color: Colors.grey[800],
+        fontSize: FontSize.small,
+      ),
+      body2: TextStyle(
+        color: Colors.grey[700],
+        fontSize: FontSize.xxSmall,
+      ),
+    ),
   );
 }

@@ -69,14 +69,7 @@ class NotesState extends State<Notes> implements NoteView {
   Widget _searchBar() {
     return SearchBar(
       onSearchPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Implement Search'),
-            );
-          },
-        );
+        Navigator.of(_scaffoldKey.currentContext).pushNamed(Strings.searchRouteName);
       },
       onMenuPressed: () {
         _scaffoldKey.currentState.openDrawer();
